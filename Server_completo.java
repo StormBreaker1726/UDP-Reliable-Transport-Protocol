@@ -47,7 +47,7 @@ public static void main(String[] args) {
     private static void receiveFile(FileOutputStream outStream, DatagramSocket socket) throws IOException {
         int totalPacketsReceived = 0;
         int totalPacketsLost = 0;
-
+        long tempoInicial = System.currentTimeMillis();
         while (!reachedEof) {
             byte[] message = new byte[1024];
 
@@ -96,8 +96,8 @@ public static void main(String[] args) {
             }
         }
         outStream.close();
-
-        double vazaoMediaMbps = ((double) totalDataReceived * 8) / (totalPacketsReceived * 1024.0) / 1000000.0;
+        long tempoFinal = System.currentTimeMillis();
+        double vazaoMediaMbps = (((double) totalDataReceived * 8)) / ((tempoFinal-tempoInicial)/1000.0);
         System.out.println("Vazão média da rede: " + vazaoMediaMbps + " Mbps");
 
         double lossRate = (double) totalPacketsLost / (totalPacketsReceived + totalPacketsLost);
